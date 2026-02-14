@@ -122,7 +122,7 @@
     moveNoButtonAwayFrom(e.clientX, e.clientY);
   });
 
-  btnNo.addEventListener('click', (e) => {
+  function handleNoClick() {
     if (isSuccess) return;
 
     if (noClickCount >= NO_MESSAGES.length - 1) {
@@ -133,6 +133,12 @@
     noClickCount += 1;
     btnNo.textContent = NO_MESSAGES[noClickCount];
     moveNoButton();
+  }
+
+  btnNo.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    handleNoClick();
   });
 
   window.addEventListener('resize', () => {
@@ -152,15 +158,26 @@
 
   if ('ontouchstart' in window) {
     let touchTarget = null;
+    let touchMoved = false;
     btnNo.addEventListener('touchstart', (e) => {
       touchTarget = e.touches[0];
+      touchMoved = false;
       if (isSuccess) return;
+      e.preventDefault();
       moveNoButton();
-    });
+    }, { passive: false });
     btnNo.addEventListener('touchmove', (e) => {
+      touchMoved = true;
       if (touchTarget && e.touches[0]) {
         moveNoButtonAwayFrom(e.touches[0].clientX, e.touches[0].clientY);
       }
-    });
+    }, { passive: true });
+    btnNo.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      if (!touchMoved && !isSuccess) {
+        handleNoClick();
+      }
+      touchTarget = null;
+    }, { passive: false });
   }
 })();
