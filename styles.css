@@ -125,6 +125,18 @@ body {
   align-items: center;
 }
 
+.btn-wrapper {
+  min-width: 0;
+}
+
+.btn-wrapper-yes {
+  flex: 0 0 auto;
+}
+
+.btn-wrapper-no {
+  flex: 0 0 auto;
+}
+
 .btn {
   font-family: 'DM Sans', sans-serif;
   font-size: 1.125rem;
@@ -214,8 +226,8 @@ body {
   50% { transform: scale(1.1); opacity: 0.8; }
 }
 
-/* Responsive */
-@media (max-width: 480px) {
+/* Responsive - stacked layout for tablets & phones */
+@media (max-width: 768px) {
   .container {
     padding: 1.5rem;
   }
@@ -226,18 +238,34 @@ body {
 
   .buttons {
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
     align-items: stretch;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
+  }
+
+  .btn-wrapper {
+    flex: 0 0 auto;
   }
 
   .btn {
     padding: 1rem 2rem;
     font-size: 1.1rem;
-    min-height: 52px;
+    min-height: 56px;
+    width: 100%;
   }
 
   .heart {
     font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttons {
+    gap: 3rem;
+    padding: 2rem 0;
+  }
+
+  .btn {
+    min-height: 58px;
   }
 }

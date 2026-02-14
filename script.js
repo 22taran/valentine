@@ -8,10 +8,13 @@
   const successSection = document.getElementById('success-section');
   const btnYes = document.getElementById('btn-yes');
   const btnNo = document.getElementById('btn-no');
+  const btnWrapperNo = document.querySelector('.btn-wrapper-no');
   const successHeartsEl = successSection.querySelector('.success-hearts');
 
   let noClickCount = 0;
   let isSuccess = false;
+  let lastNoInteraction = 0;
+  let yesBlockTimeout = null;
 
   function fireConfetti() {
     if (typeof confetti !== 'function') return;
@@ -110,7 +113,25 @@
   }
   }
 
-  btnYes.addEventListener('click', showSuccess);
+  function blockYesTemporarily() {
+    lastNoInteraction = Date.now();
+    btnYes.style.pointerEvents = 'none';
+    btnYes.setAttribute('aria-disabled', 'true');
+    clearTimeout(yesBlockTimeout);
+    yesBlockTimeout = setTimeout(() => {
+      btnYes.style.pointerEvents = '';
+      btnYes.removeAttribute('aria-disabled');
+    }, 600);
+  }
+
+  btnYes.addEventListener('click', (e) => {
+    if (Date.now() - lastNoInteraction < 600) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    showSuccess();
+  });
 
   btnNo.addEventListener('mouseenter', (e) => {
     if (isSuccess) return;
@@ -138,6 +159,7 @@
   btnNo.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
+    blockYesTemporarily();
     handleNoClick();
   });
 
@@ -156,7 +178,18 @@
     }
   });
 
+  function isTouchOnNo(e) {
+    const t = e.target;
+    return t === btnNo || (btnWrapperNo && btnWrapperNo.contains(t));
+  }
+
   if ('ontouchstart' in window) {
+    document.addEventListener('touchstart', (e) => {
+      if (isTouchOnNo(e)) {
+        blockYesTemporarily();
+      }
+    }, { capture: true });
+
     let touchTarget = null;
     let touchMoved = false;
     btnNo.addEventListener('touchstart', (e) => {
