@@ -57,22 +57,42 @@
     fireConfetti();
   }
 
-  function moveNoButton() {
+  function isMobileView() {
+    return window.innerWidth <= 768;
+  }
+
+  function getNoButtonBounds() {
     const rect = btnNo.getBoundingClientRect();
     const btnWidth = rect.width;
     const btnHeight = rect.height;
     const padding = 60;
+    const gap = 24;
 
-    const maxX = window.innerWidth - btnWidth - padding;
-    const maxY = window.innerHeight - btnHeight - padding;
-    const minX = padding;
-    const minY = padding;
+    let minX = padding;
+    let minY = padding;
+    let maxX = window.innerWidth - btnWidth - padding;
+    let maxY = window.innerHeight - btnHeight - padding;
 
-    let newX = rect.left + (Math.random() - 0.5) * 200;
-    let newY = rect.top + (Math.random() - 0.5) * 200;
+    if (isMobileView()) {
+      const yesRect = btnYes.getBoundingClientRect();
+      minY = yesRect.bottom + gap;
+      maxY = Math.max(minY, window.innerHeight - btnHeight - padding);
+    }
 
-    newX = Math.max(minX, Math.min(maxX, newX));
-    newY = Math.max(minY, Math.min(maxY, newY));
+    return { minX, minY, maxX, maxY };
+  }
+
+  function moveNoButton() {
+    const rect = btnNo.getBoundingClientRect();
+    const btnWidth = rect.width;
+    const btnHeight = rect.height;
+    const bounds = getNoButtonBounds();
+
+    let newX = bounds.minX + Math.random() * (bounds.maxX - bounds.minX);
+    let newY = bounds.minY + Math.random() * (bounds.maxY - bounds.minY);
+
+    newX = Math.max(bounds.minX, Math.min(bounds.maxX, newX));
+    newY = Math.max(bounds.minY, Math.min(bounds.maxY, newY));
 
     btnNo.style.position = 'fixed';
     btnNo.style.left = `${newX}px`;
@@ -85,7 +105,6 @@
     const rect = btnNo.getBoundingClientRect();
     const btnCenterX = rect.left + rect.width / 2;
     const btnCenterY = rect.top + rect.height / 2;
-    const padding = 80;
     const escapeDistance = 120;
 
     const dx = btnCenterX - x;
@@ -97,20 +116,16 @@
       const newX = rect.left + Math.cos(angle) * escapeDistance;
       const newY = rect.top + Math.sin(angle) * escapeDistance;
 
-      const maxX = window.innerWidth - rect.width - padding;
-      const maxY = window.innerHeight - rect.height - padding;
-      const minX = padding;
-      const minY = padding;
+      const bounds = getNoButtonBounds();
+      const clampedX = Math.max(bounds.minX, Math.min(bounds.maxX, newX));
+      const clampedY = Math.max(bounds.minY, Math.min(bounds.maxY, newY));
 
-      let clampedX = Math.max(minX, Math.min(maxX, newX));
-      let clampedY = Math.max(minY, Math.min(maxY, newY));
-
-    btnNo.style.position = 'fixed';
-    btnNo.style.left = `${clampedX}px`;
-    btnNo.style.top = `${clampedY}px`;
-    btnNo.style.transform = 'translate(0, 0)';
-    btnNo.style.zIndex = '100';
-  }
+      btnNo.style.position = 'fixed';
+      btnNo.style.left = `${clampedX}px`;
+      btnNo.style.top = `${clampedY}px`;
+      btnNo.style.transform = 'translate(0, 0)';
+      btnNo.style.zIndex = '100';
+    }
   }
 
   function blockYesTemporarily() {
@@ -165,14 +180,11 @@
 
   window.addEventListener('resize', () => {
     if (btnNo.style.position === 'fixed') {
-      const rect = btnNo.getBoundingClientRect();
-      const padding = 60;
-      const maxX = window.innerWidth - rect.width - padding;
-      const maxY = window.innerHeight - rect.height - padding;
-      const minX = padding;
-      const minY = padding;
-      const clampedX = Math.max(minX, Math.min(maxX, parseFloat(btnNo.style.left) || 0));
-      const clampedY = Math.max(minY, Math.min(maxY, parseFloat(btnNo.style.top) || 0));
+      const bounds = getNoButtonBounds();
+      const currentX = parseFloat(btnNo.style.left) || 0;
+      const currentY = parseFloat(btnNo.style.top) || 0;
+      const clampedX = Math.max(bounds.minX, Math.min(bounds.maxX, currentX));
+      const clampedY = Math.max(bounds.minY, Math.min(bounds.maxY, currentY));
       btnNo.style.left = `${clampedX}px`;
       btnNo.style.top = `${clampedY}px`;
     }
