@@ -125,18 +125,6 @@ body {
   align-items: center;
 }
 
-.btn-wrapper {
-  min-width: 0;
-}
-
-.btn-wrapper-yes {
-  flex: 0 0 auto;
-}
-
-.btn-wrapper-no {
-  flex: 0 0 auto;
-}
-
 .btn {
   font-family: 'DM Sans', sans-serif;
   font-size: 1.125rem;
@@ -146,8 +134,6 @@ body {
   border-radius: 2rem;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  touch-action: manipulation;
-  min-height: 48px;
 }
 
 .btn:focus {
@@ -226,8 +212,8 @@ body {
   50% { transform: scale(1.1); opacity: 0.8; }
 }
 
-/* Responsive - stacked layout for tablets & phones */
-@media (max-width: 768px) {
+/* Responsive */
+@media (max-width: 480px) {
   .container {
     padding: 1.5rem;
   }
@@ -238,34 +224,18 @@ body {
 
   .buttons {
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 1.5rem;
     align-items: stretch;
-    padding: 1.5rem 0;
-  }
-
-  .btn-wrapper {
-    flex: 0 0 auto;
   }
 
   .btn {
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
-    min-height: 56px;
-    width: 100%;
+    padding: 0.875rem 1.75rem;
+    font-size: 1rem;
+    min-height: 48px;
+    touch-action: manipulation;
   }
 
   .heart {
     font-size: 1.25rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .buttons {
-    gap: 3rem;
-    padding: 2rem 0;
-  }
-
-  .btn {
-    min-height: 58px;
   }
 }
