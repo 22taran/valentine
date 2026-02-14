@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will you be my Valentine?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="hearts-bg" aria-hidden="true">
+    <span class="heart">♥</span>
+    <span class="heart">♥</span>
+    <span class="heart">♥</span>
+    <span class="heart">♥</span>
+    <span class="heart">♥</span>
+    <span class="heart">♥</span>
+  </div>
+
+  <main class="container">
+    <section class="ask-section" id="ask-section">
+      <h1 class="question">Will you be my Valentine?</h1>
+      <p class="subheading">♥ ♥ ♥</p>
+      <div class="buttons">
+        <button type="button" class="btn btn-yes" id="btn-yes">Yes!</button>
+        <button type="button" class="btn btn-no" id="btn-no">No</button>
+      </div>
+    </section>
+
+    <section class="success-section hidden" id="success-section">
+      <h2 class="success-title">Yay! You made my day!</h2>
+      <p class="success-message">Happy Valentine's Day ♥</p>
+      <div class="success-hearts" aria-hidden="true"></div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

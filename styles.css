@@ -1,0 +1,237 @@
+/* CSS Custom Properties */
+:root {
+  --rose: #e8b4b8;
+  --coral: #f4a6a6;
+  --blush: #fce4ec;
+  --gold: #d4a574;
+  --gold-light: #e8c9a8;
+  --text-dark: #5d3a3a;
+  --shadow: rgba(93, 58, 58, 0.15);
+}
+
+/* Reset & Base */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--blush) 0%, var(--rose) 35%, var(--coral) 70%, var(--gold-light) 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Floating Hearts Background */
+.hearts-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.heart {
+  position: absolute;
+  font-size: 1.5rem;
+  color: var(--rose);
+  opacity: 0.4;
+  animation: float 15s ease-in-out infinite;
+}
+
+.heart:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 12s; }
+.heart:nth-child(2) { left: 80%; top: 15%; animation-delay: -2s; animation-duration: 18s; }
+.heart:nth-child(3) { left: 25%; top: 70%; animation-delay: -4s; animation-duration: 14s; }
+.heart:nth-child(4) { left: 70%; top: 60%; animation-delay: -6s; animation-duration: 16s; }
+.heart:nth-child(5) { left: 50%; top: 10%; animation-delay: -8s; animation-duration: 20s; }
+.heart:nth-child(6) { left: 15%; top: 50%; animation-delay: -10s; animation-duration: 13s; }
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(20px, -30px) rotate(5deg);
+  }
+  50% {
+    transform: translate(-15px, -20px) rotate(-5deg);
+  }
+  75% {
+    transform: translate(10px, 10px) rotate(3deg);
+  }
+}
+
+/* Container */
+.container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 520px;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Ask Section */
+.ask-section {
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--text-dark);
+  line-height: 1.2;
+}
+
+.subheading {
+  font-size: 1.25rem;
+  margin: 0 0 2.5rem;
+  letter-spacing: 0.5em;
+  opacity: 0.9;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  padding: 0.875rem 2rem;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.btn-yes {
+  background: linear-gradient(135deg, var(--coral), var(--gold));
+  color: white;
+  box-shadow: 0 4px 15px var(--shadow);
+}
+
+.btn-yes:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px var(--shadow);
+}
+
+.btn-yes:active {
+  transform: scale(0.98);
+}
+
+.btn-no {
+  background: white;
+  color: var(--text-dark);
+  box-shadow: 0 4px 15px var(--shadow);
+  position: relative;
+  transition: transform 0.15s ease-out;
+  z-index: 10;
+}
+
+.btn-no:hover {
+  transform: scale(1.02);
+}
+
+/* Success Section */
+.success-section {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.success-section.hidden {
+  display: none;
+}
+
+.ask-section.hidden {
+  display: none;
+}
+
+.success-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  color: var(--text-dark);
+}
+
+.success-message {
+  font-size: 1.25rem;
+  opacity: 0.95;
+  margin: 0;
+}
+
+.success-hearts {
+  margin-top: 2rem;
+  font-size: 2rem;
+  letter-spacing: 0.5rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .container {
+    padding: 1.5rem;
+  }
+
+  .subheading {
+    margin-bottom: 2rem;
+  }
+
+  .buttons {
+    gap: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .heart {
+    font-size: 1.25rem;
+  }
+}
